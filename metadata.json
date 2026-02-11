@@ -1,0 +1,8 @@
+
+{
+  "name": "NovaTrade AI - Smart Quant Robot",
+  "description": "A sophisticated AI-driven trading terminal that connects to crypto markets, analyzes real-time data using Gemini 3, and executes automated trading strategies with visual ROI and trade history tracking.",
+  "requestFramePermissions": [
+    "notifications"
+  ]
+}
