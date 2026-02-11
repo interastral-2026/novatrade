@@ -66,17 +66,17 @@ app.get('/api/portfolio', async (req, res) => {
 
 // Execute Trade (Market Order)
 app.post('/api/trade', async (req, res) => {
-  const { symbol, side, amount } = req.body; // side: 'BUY' or 'SELL'
+  const { symbol, side, amount } = req.body;
   try {
     const apiPath = '/api/v3/brokerage/orders';
     const token = generateCoinbaseToken('POST', apiPath);
     
-    const product_id = `${symbol}-USDT`; // Adjust based on your preferred pair
+    const product_id = `${symbol}-USDT`;
     const client_order_id = crypto.randomBytes(16).toString('hex');
     
     const orderConfig = side === 'BUY' 
-      ? { market_market_ioc: { quote_size: amount } } // Buy with USDT amount
-      : { market_market_ioc: { base_size: amount } }; // Sell amount of asset
+      ? { market_market_ioc: { quote_size: amount } }
+      : { market_market_ioc: { base_size: amount } };
 
     const response = await axios.post(`https://api.coinbase.com${apiPath}`, {
       client_order_id,
@@ -94,9 +94,9 @@ app.post('/api/trade', async (req, res) => {
   }
 });
 
-app.get('/api/health', (req, res) => res.json({ status: 'ok', environment: process.env.NODE_ENV || 'development' }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', engine: 'NovaTrade-AI' }));
 
-// Static Serving
+// Static Serving - این بخش برای لود شدن فرانت‌ند ضروری است
 const rootPath = path.resolve(__dirname);
 app.use(express.static(rootPath));
 
@@ -105,8 +105,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(rootPath, 'index.html'));
 });
 
-const PORT = process.env.PORT || 3001;
+// Railway و Localhost هر دو از این پورت استفاده می‌کنند
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 NOVATRADE SERVER RUNNING ON PORT ${PORT}`);
-  console.log(`🔗 API ENDPOINT: http://localhost:${PORT}/api`);
+  console.log(`🚀 NOVATRADE AI SERVER RUNNING ON PORT ${PORT}`);
 });
